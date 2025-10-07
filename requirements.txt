@@ -1,0 +1,7 @@
+streamlit
+pandas
+lxml
+sqlite3
+random   
+webbrowser
+io
