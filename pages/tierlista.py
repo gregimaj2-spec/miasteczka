@@ -95,7 +95,7 @@ def get_sheet():
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["gcp_service_account"], scope)
     client = gspread.authorize(creds)
-    SHEET_ID = "TWÓJ_ID_ARKUSZA_TUTAJ"  # <-- ten sam co w app.py
+    SHEET_ID = "1lCVAdbq3g7Mmg1XQ3fg4kssBqlJc3xzD3XIOQbIXpbI"  # <-- ten sam co w app.py
     sheet = client.open_by_key(SHEET_ID).sheet1
 
     existing = sheet.get_all_values()

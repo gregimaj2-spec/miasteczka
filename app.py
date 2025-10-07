@@ -22,7 +22,7 @@ def get_sheet():
     client = gspread.authorize(creds)
 
     # 🔑 Wklej tu swoje ID arkusza (z adresu pomiędzy /d/ a /edit)
-    SHEET_ID = "TWÓJ_ID_ARKUSZA_TUTAJ"
+    SHEET_ID = "1lCVAdbq3g7Mmg1XQ3fg4kssBqlJc3xzD3XIOQbIXpbI"
     sheet = client.open_by_key(SHEET_ID).sheet1
 
     # Jeśli arkusz jest pusty, dodaj nagłówki
