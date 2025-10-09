@@ -137,20 +137,32 @@ def load_miasta():
     html = urllib.request.urlopen(req).read().decode("utf-8")
     tables = pd.read_html(StringIO(html))
     df = tables[0].copy()
+    
+    # czyszczenie nazw kolumn
     df.columns = [c.strip().replace("\xa0", " ") for c in df.columns]
-
+    
     # znajdź kolumny
     lud_cols = [c for c in df.columns if "ludno" in c.lower()]
     woj_cols = [c for c in df.columns if "woj" in c.lower()]
     
-    df.rename(columns={lud_cols[0]: "Ludność", woj_cols[0]: "Województwo"}, inplace=True)
+    # zmień nazwy
+    df.rename(columns={
+        lud_cols[0]: "Ludność",
+        woj_cols[0]: "Województwo"
+    }, inplace=True)
+    
+    # oczyść ludność
     df["Ludność"] = (
         df["Ludność"].astype(str)
         .str.replace(r"[^0-9]", "", regex=True)
         .replace("", pd.NA)
         .astype("Int64")
     )
+    
+    # tylko potrzebne kolumny
     return df[["Miasto", "Województwo", "Ludność"]]
+
+miasta = load_miasta()
 
 # ======================================
 # 6) PANEL BOCZNY
@@ -209,19 +221,20 @@ else:
 if "miasto" in st.session_state:
     miasto = st.session_state["miasto"]
     woj = miasta.loc[miasta["Miasto"] == miasto, "Województwo"].iloc[0]
-
     st.subheader(f"🎯 Wylosowano: **{miasto}**")
-    link = f"https://www.google.com/maps/search/?api=1&query={miasto.replace(' ', '+')}+{woj.replace(' ', '+')}+Polska"
+    link = f"https://www.google.com/maps/search/?api=1&query={miasto.replace(' ', '+')}+{woj.replace(' ', '+')}"
     st.markdown(f"[🗺️ Otwórz w Google Maps]({link})")
+
     st.markdown(
     f"""
     <iframe 
-        src="https://www.google.com/maps?q={miasto.replace(' ', '+')}+{woj.replace(' ', '+')}+Polska&output=embed" 
+        src="https://www.google.com/maps?q={miasto.replace(' ', '+')}+{woj.replace(' ', '+')}&output=embed" 
         width="100%" height="400" style="border-radius:12px; border:1px solid #ccc;">
     </iframe>
     """,
     unsafe_allow_html=True,
     )
+
     st.write("---")
     st.markdown("### 💬 Dodaj komentarz i ocenę literową")
     komentarz = st.text_area("Komentarz (opcjonalnie):", key="kom")
