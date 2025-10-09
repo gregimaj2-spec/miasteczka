@@ -210,7 +210,7 @@ if "miasto" in st.session_state:
     link = f"https://www.google.com/maps/search/?api=1&query={miasto.replace(' ', '+')}+Polska"
     st.markdown(f"[🗺️ Otwórz w Google Maps]({link})")
 
-st.markdown(
+    st.markdown(
     f"""
     <iframe 
         src="https://www.google.com/maps?q={miasto.replace(' ', '+')}+województwo+małopolskie,+Polska&output=embed"
@@ -218,7 +218,7 @@ st.markdown(
     </iframe>
     """,
     unsafe_allow_html=True,
-)
+    )
 
     st.write("---")
     st.markdown("### 💬 Dodaj komentarz i ocenę literową")
