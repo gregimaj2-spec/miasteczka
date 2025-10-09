@@ -207,15 +207,18 @@ else:
 if "miasto" in st.session_state:
     miasto = st.session_state["miasto"]
     st.subheader(f"🎯 Wylosowano: **{miasto}**")
-    link = f"https://www.google.com/maps/search/?api=1&query={miasto.replace(' ', '+')}"
+    link = f"https://www.google.com/maps/search/?api=1&query={miasto.replace(' ', '+')}+Polska"
     st.markdown(f"[🗺️ Otwórz w Google Maps]({link})")
 
-    st.markdown(f"""
-        <iframe 
-            src="https://www.google.com/maps?q={miasto.replace(' ', '+')}&output=embed" 
-            width="100%" height="400" style="border-radius:12px; border:1px solid #ccc;">
-        </iframe>
-    """, unsafe_allow_html=True)
+st.markdown(
+    f"""
+    <iframe 
+        src="https://www.google.com/maps?q={miasto.replace(' ', '+')}+województwo+małopolskie,+Polska&output=embed"
+        width="100%" height="400" style="border-radius:12px; border:1px solid #ccc;">
+    </iframe>
+    """,
+    unsafe_allow_html=True,
+)
 
     st.write("---")
     st.markdown("### 💬 Dodaj komentarz i ocenę literową")
@@ -225,7 +228,7 @@ if "miasto" in st.session_state:
     if st.button("💾 Zapisz / nadpisz"):
         if komentarz or ocena:
             save_comment(user, miasto, komentarz or None, ocena or None)
-            st.success("Zapisano (UPSERT).")
+            st.success("Zapisano.")
         else:
             st.warning("Podaj komentarz lub ocenę (przynajmniej jedno).")
 
